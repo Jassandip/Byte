@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{Microcenter}} </title>
+        {% block css_dependencies %}
+            <link href="style.css" rel="stylesheet">
+        {% endblock css_dependencies %}
+        {% block js_dependencies  %}
+            <script src="behavior.js"></script>
+        {% endblock js_dependencies  %}
+    </head>
+
+    <body>
+        <h1>This is where our navigation will go!</h1>
+        <h2> This is a little smaller then h1</h2>
+        
+        <div>
+            {% block viewport %}
+                <p>This is default content</p>
+            {% endblock viewport %}
+        </div>
+    </body>
+
+</html>

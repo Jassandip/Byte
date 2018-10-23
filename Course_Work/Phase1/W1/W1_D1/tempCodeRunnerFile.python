@@ -1,0 +1,46 @@
+import sqlite3
+import os
+import time
+from database_access_object import Database as dao
+
+with dao('school.db') as db:
+    db.create_table('class')
+    db.ass_column('class','subject')
+    db.ass_column('class','room')
+    db.ass_column('class','teacher')
+    db.create_table('teacher')
+    db.ass_column('teacher','name')
+    db.ass_column('teacher','age')
+    db.ass_column('teacher','sunject')
+    db.create_table('student')
+    db.ass_column('student','name')
+    db.ass_column('student','age')
+    db.ass_column('student','grade')
+    while True:
+        os.system('clear')
+        print('\n\nWhat woud you like to add to our DB?')
+        choice = input('\n\n[C]lass\n[T]eacher\n[S]tudent\n[E]xit')
+        if choice.upper() == 'C':
+            class_subject = d = input("What is the subject of your class?")
+            class_room = e =  input("Whats the class room number?")
+            class_teacher = f =  input("What is the primary teachers name?")
+            db.insert('class','subject','room','teacher',d,e,f)
+
+        elif choice.upper() == 'T':
+            teacher_name = d =input("Whats the teachers name?")
+            teachers_age = e = input("Whats the teachers age?")
+            teachers_subject = f =  input("What subject does he/she teach?")
+            db.insert('teacher','name','age','subject',d,e,f)
+
+        elif choice.upper() == 'S':
+            student_name = d = input("Whats the students name?")
+            student_age = e = input("Whats the studets age?")
+            student_grade = f =  input("What grade is the student in?")
+            db.insert('student','name','age','grade',d,e,f)
+
+        elif choice.upper() == 'E':
+            print('\n\nExiting.....')
+            break
+        else:
+            print('Invalid choice. Please type C, T, or S')
+            time.sleep(3)

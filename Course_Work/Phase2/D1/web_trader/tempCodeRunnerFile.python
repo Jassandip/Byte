@@ -1,0 +1,8 @@
+a = ["hello", 'HI'] 
+
+
+for i in a:
+    if i == i.upper():
+        print(i)
+    else: 
+        print("Not all caps!")

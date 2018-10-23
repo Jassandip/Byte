@@ -1,0 +1,29 @@
+
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the sockMerchant function below.
+def sockMerchant(n, ar):
+    ar.sort()
+    x = 0 
+    z = 0
+    for i in ar:
+        for j in ar:
+            if i == j:
+                x += 1
+                ar.remove(j)
+        z += (x // 2)
+        x = 0 
+    return(z)
+        
+            
+            
+
+
+
+result = sockMerchant(n, ar)
+

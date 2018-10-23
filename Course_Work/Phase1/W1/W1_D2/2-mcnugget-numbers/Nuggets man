@@ -1,0 +1,64 @@
+def not_nuggets(x,y,z):
+    a = min(x,y,z)
+    l1=[]
+    l2=[]
+    x = 0 
+    while x < a:
+        for i in range(0,a+1):
+            if x >= a:
+                break
+            else:
+                pass
+            for j in range(0,a+1):
+                if x >= a:
+                    break
+                else:
+                    pass
+                for k in range(0,a+1):
+                    n = ((i*a)+(j*y)+(k*z))
+                    if n not in l1:
+                        l1.append(n)
+                    
+                    b = sorted(l1)
+                    
+                    for q in range(0,len(b)):
+                        if q == len(b)-1:
+                            pass
+                        elif b[q] + 1 == (b[q+1]):
+                            x += 1
+                        else:
+                            x = 0
+                            pass
+                        if x >= a:
+                            break 
+                        else:
+                            pass
+
+    xt = 0
+    b.append(10)
+    print b
+    con = 0
+    for u in range(0,len(b) - 1):
+        if (b[u] + 1) == (b[u+1]):
+            xt += 1    
+        else:
+            xt = 0   
+            pass
+        if xt >= a + 1 :
+            con = b[u]
+            break 
+        else:
+            pass
+    print(con)
+
+    
+        
+
+           
+
+
+not_nuggets(6,9,20)
+
+
+
+    
