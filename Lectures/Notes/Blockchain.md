@@ -23,11 +23,15 @@ genesis block - is the first block mined first in the blockchain
 - burnaddress  
 - bitcoin cryptocurrency technology by anand naryan 
 - crytoassets 
+- chmod
+- multichain.com/developers/getting-started/
+- multichain.com/developers/streamed-confidentiality/
 
 #Definition
 Big O notation - how an algorithm slows as a the data grows
 tar.gz - is a compressed file
 10.17.0.7:4257 - an ip-address that starts with 10 means its only accessiable wihtin the server
+chmod - change mode
 
 
 #Questions
@@ -37,7 +41,16 @@ tar.gz - is a compressed file
 ## To set up
     wget https://www.multichain.com/download/multichain-1.0.6.tar.gz -O /tmp/multichain.tar.gz
     tar -xvzf /tmp/multichain.tar.gz 
-    mv multichain-1.0.6/multichaind multichain-1.0.6/multichain-cli multichain-1.0.6/multichain-util /usr/local/bin
+    mv multichain-1.0.6 ../opt
+    cd ../opt/multichain-1.0.6
+    mv multichaind multichain-cli multichain-util ../../usr/local/bin
+
+    or 
+
+    scp setup.zip root@{ip-address}:/tmp
+    
+    ./tmp/setup.sh
+    multichaind jashanchain -daemon
 
 - tar -v - verbose
 - nano ~/.multichain/chain1/params.dat - shows parameters 
@@ -46,3 +59,4 @@ tar.gz - is a compressed file
 - getblockchainparams - the whole paper
 - multichain-cli chain1 - starts interactive mode 
 - getpeerinfo - shows your 
+- curl x POST "https://api.digitalocean.com/v2/droplets" -d 
