@@ -3,6 +3,7 @@
 from flask import Flask,render_template,request,session,Blueprint,redirect,url_for
 
 from src.model import model
+import sqlite3
 
 controller = Blueprint('public',__name__)
 
@@ -43,91 +44,79 @@ def signup():
     elif request.method == 'POST':
         username = request.form["username"]
         password = request.form["password"]
-        session['username'] = username
-        model.sign_up(username,password)
-        model.add_friend(session['username'],friend)
-        return redirect('/dashboard')
+        if model.check_username(username):
+            session['username'] = username
+            model.sign_up(username,password)
+            model.add_friend(session['username'],session['username'])
+            return redirect('/dashboard')
+        else:
+            message = "That username is already taken, try again!"
+            return render_template('signup.html',message=message)
 
 @controller.route('/dashboard',methods=['GET','POST'])
 def dashboard():
     if request.method == 'GET':
         dump = model.dump()
         friends = model.get_friends(session['username'])
-        print(friends)
-        print(dump)
-        return render_template('dashboard.html',dump=dump,friends=friends)
+        return render_template('dashboard.html',dump=dump,friends=friends,username=session['username'])
     elif request.method == 'POST':
         friends = model.get_friends(session['username'])
         tweet = request.form["tweet"]
-        model.tweet(session['username'],tweet)
-        dump = model.dump()
-        return render_template('dashboard.html',dump=dump,friends=friends)
+        try:
+            model.tweet(session['username'],tweet)
+            dump = model.dump()
+            return render_template('dashboard.html',dump=dump,friends=friends,username=session['username'])
+        except:
+            message="Your tweet syntax broke my system, nice"
+            return render_template('404.html',message=message,username=session['username'])
+            
+
         
 @controller.route('/addfriend',methods=['GET','POST'])
 def addfriend():
     if request.method == 'GET':
         message = '{} lets add some friends'.format(session['username'])
-        return render_template('addfriend.html',message=message)
+        users = model.get_users(session['username'])
+        return render_template('addfriend.html',message=message,username=session['username'],users=users)
     elif request.method == 'POST':
-        friend = request.form["friend"]
-        #try:
-        model.add_friend(session['username'],friend)
-        message = "Congratulations, {} is your friend now!".format(friend)
-        return render_template('addfriend.html',message=message)
-        #except:
-        #    message = "Something went wrong with the buy function"
-        #    return render_template('buy.html',message=message)
+        message = "There is no person by that name"
+        users = model.get_users(session['username'])
+        return render_template('addfriend.html',message=message,username=session['username'],users=users)
+
+
+
 
 @controller.route('/profile',methods=['GET','POST'])
 def profile():
     if request.method == 'GET':
         friend = session['friends']
-        print(1)
-        print(friend)
         message = "You are now following {}!".format(friend)
         model.add_friend(session['username'],friend)
-        return render_template('profile.html',message=message)
+        tweets = model.get_tweets(friend)
+        return render_template('profile.html',message=message,tweets=tweets,username=session['username'])
     elif request.method == 'POST':
         msg = request.form['search']
-        session['friends'] = msg
-        print(msg)
-        message = "{} do you want to follow {}?".format(session['username'],msg)
-        return render_template('profile.html',msg=msg,message=msg)
-        #except:
-        #    message = "Something went wrong with the buy function"
-        #    return render_template('buy.html',message=message)
+        if model.check_user(session['username'],msg):
+            session['friends'] = msg
+            tweets = model.get_tweets(msg)
+            show = True 
+            return render_template('profile.html',msg=msg,message=msg,tweets=tweets,username=session['username'],show=show)
+        else: 
+            message = "There is no person by that name to follow"
+            show = False
+            return render_template('profile.html',message=message,username=session['username'],show=show)
+            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-@controller.route('/sell',methods=['GET','POST'])
-def sell():
+@controller.route('/killboard',methods=['GET','POST'])
+def killboard():
     if request.method == 'GET':
-        message = 'What do you wanna sell {}?'.format(session['username'])
-        return render_template('sell.html',message=message)
+        message = 'R.I.P.'
+        users = model.get_users(session['username'])
+        return render_template('killboard.html',message=message,users=users,username=session['username'])
     elif request.method == 'POST':
-        ticker = request.form["ticker"]
-        trade_volume = request.form["quantity"]
-        message = model.sell(session['username'],ticker,trade_volume)
-        return render_template('sell.html',message=message)
-
-@controller.route('/lookup',methods=['GET','POST'])
-def lookup():
-    if request.method == 'GET':
-        message = 'What do you wanna to look up {}?'.format(session['username'])
-        return render_template('lookup.html',message=message)
-    elif request.method == 'POST':
-        ticker = request.form["ticker"]
-        message = model.lookup(ticker)
-        return render_template('lookup.html',message=message)
+        user = request.form["user"]
+        model.delete_user(user)
+        users = model.get_users(session['username'])
+        message = 'R.I.P.'
+        return render_template('killboard.html',message=message,users=users,username=session['username'])
 

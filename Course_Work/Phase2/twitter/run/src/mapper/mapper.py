@@ -81,6 +81,29 @@ class Database:
             """SELECT * FROM tweets WHERE username =='{}';""".format(row[0]))
         return self.cursor.fetchall()
 
+    def get_users(self,username):
+        self.cursor.execute(
+            """SELECT username FROM users WHERE username!='{}';""".format(username))
+        return self.cursor.fetchall()
+
+    def delete_user(self,username):
+        self.cursor.execute("""DELETE FROM users WHERE username=='{username}';""".format(username=username))
+        self.cursor.execute("""DELETE FROM friends WHERE friends=='{username}';""".format(username=username))
+        self.cursor.execute("""DELETE FROM friends WHERE username=='{username}';""".format(username=username))
+        self.cursor.execute("""DELETE FROM tweets WHERE username=='{username}';""".format(username=username))
+
+    def get_tweets(self,username):
+        self.cursor.execute(
+            """SELECT * FROM tweets WHERE username=='{}';""".format(username))
+        return self.cursor.fetchall()
+
+    def usernames(self):
+        self.cursor.execute(
+            """SELECT username FROM users;""")
+        return self.cursor.fetchall()
+
+
+
 
 
 

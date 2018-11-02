@@ -3,10 +3,8 @@
 import json
 
 from src.mapper.mapper import Database 
-from src.wrapper.wrapper import Markit
 from datetime import datetime
 
-import requests
 
 def sign_up(username,password):
     with Database('master.db') as db:
@@ -40,6 +38,44 @@ def dump():
 def newsfeed(username):
     with Database('master.db') as db:
         return db.newsfeed(username)
+
+def get_users(username):
+    with Database('master.db') as db:
+        return db.get_users(username)
+
+def delete_user(username):
+    with Database('master.db') as db:
+        return db.delete_user(username)
+        
+def get_tweets(username):
+    with Database('master.db') as db:
+        return db.get_tweets(username)
+
+def check_user(looker,lookie):
+    with Database('master.db') as db:
+        users = db.get_users(looker)
+    users1 = []
+    for row in users:
+        users1.append(row[0])
+    print(users1)
+    if lookie in users1:
+        return True
+    else:
+        return False 
+
+def check_username(username):
+    with Database('master.db') as db:
+        usernames = db.usernames()
+    usernames1 = []
+    print(usernames1)
+    for row in usernames:
+        usernames1.append(row[0])
+    if username not in usernames1:
+        return True
+    else:
+        return False
+
+        
 
 
 

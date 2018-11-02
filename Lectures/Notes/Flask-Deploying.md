@@ -46,6 +46,9 @@
 - apt -get -y update
 - adduser --disabled-password --gecos "" {username} -creates a user without the need of a password 
 -  usermod -aG sudo {username} - gives the user sudo privaledges 
+-  nohup - runs the command/process regardless of if you close the window
+-  ps -ef | grep python3 - shows you the processess runining and thier specific ids
+-  kill "process number" - kills the process usiing its process id 
 
 
 
